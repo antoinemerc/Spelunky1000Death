@@ -14,10 +14,14 @@ class Application(tk.Frame):
         self.widgetList = dict()
         self.defPad = 5
         self.putTitle("mainTitle", "Spelunky 1000 death achievement")
-        self.putText("description", "This program is a loop automating the death of the spelunker.\n Each loop takes about 11 seconds.\n It will take about 3 hours to die that many times")
-        self.putInput("Down", "down")
-        self.putInput("Bomb", "bomb")
-        self.putInput("Whip", "whip")
+        description = ("This program is a loop automating the death of the spelunker.\n"
+                       "Each loop takes about 11 seconds, it will take about 3 hours to die that many times.\n"
+                       "Once you hit start, launch the game and get in the first level, just wait for the death to begin\n")
+        self.putText("description", description)
+        self.putInput("loop", "Number of loop")
+        self.putInput("down", "Down key")
+        self.putInput("bomb", "Bomb key")
+        self.putInput("whip", "Whip key")
 
     def getContainer(self):
         # background="red"
@@ -36,12 +40,12 @@ class Application(tk.Frame):
         msgElem = tk.Message(self.getContainer(), text=text,
                              anchor=tk.NW, width=380)
         msgElem.pack(
-            padx=self.defPad, pady=self.defPad, expand=True, fill=tk.X)
+            side=tk.LEFT, padx=self.defPad, pady=self.defPad, expand=True, fill=tk.X)
         self.widgetList[label] = msgElem
 
     def putInput(self, label, name):
         container = self.getContainer()
-        labelElem = tk.Label(container, text=name + " key: ", width=10)
+        labelElem = tk.Label(container, text=name, width=15, anchor=tk.W)
         labelElem.pack(
             side=tk.LEFT, padx=self.defPad, pady=self.defPad)
         inputElem = tk.Entry(container)
@@ -59,22 +63,23 @@ def guiInit():
     root.mainloop()
 
 
-def killLoop(downKey, bombKey, resetKey):
-    print(downKey + bombKey + resetKey)
-    keyboard.press(downKey)
-    time.sleep(0.5)
-    print("bomb")
-    keyboard.press(bombKey)
-    time.sleep(0.1)
-    keyboard.release(bombKey)
-    time.sleep(0.1)
-    keyboard.release(downKey)
-    time.sleep(8)
-    print("Reset")
-    keyboard.press(resetKey)
-    time.sleep(0.1)
-    keyboard.release(resetKey)
-    time.sleep(2.5)
+def killLoop(loop, downKey, bombKey, resetKey):
+    for x in range(0, int(loop)):
+        print(downKey + bombKey + resetKey)
+        keyboard.press(downKey)
+        time.sleep(0.5)
+        print("bomb")
+        keyboard.press(bombKey)
+        time.sleep(0.1)
+        keyboard.release(bombKey)
+        time.sleep(0.1)
+        keyboard.release(downKey)
+        time.sleep(8)
+        print("Reset")
+        keyboard.press(resetKey)
+        time.sleep(0.1)
+        keyboard.release(resetKey)
+        time.sleep(2.5)
 
 
 def main():
@@ -87,9 +92,7 @@ def main():
     # Select the window with the game running
     print("Open the game and enter the first level, press enter to start killing")
     time.sleep(15)
-
-    for x in range(0, int(loop)):
-        killLoop(down, bomb, reset)
+    killLoop(loop, down, bomb, reset)
 
 
 def usage():
