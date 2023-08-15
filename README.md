@@ -13,5 +13,7 @@ When you hit the execute button launch a spelunky game, the program takes around
 Install the latest version of Python, latest tested version was 3.11.4
 once installed, install the keyboard package:
  - `pip install keyboard`
+ - 
 In the directory launch the script
+
  - `python.exe .\main.py gui`
